@@ -1,0 +1,34 @@
+- name: Get Wazuh agent msi if needed
+  run_once: true
+  block:
+    - name: Create /opt/ludus/resources/windows directory if it doesn't exist
+      ansible.builtin.file:
+        path: "{{ ludus_install_directory }}/resources/windows"
+        state: directory
+        recurse: true
+      delegate_to: localhost
+
+    - name: Check if Wazuh agent exists
+      ansible.builtin.stat:
+        path: "{{ ludus_install_directory }}/resources/windows/wazuh-agent-4.7.3-1.msi"
+      delegate_to: localhost
+      register: wazuhagent_msi_check
+
+    - name: Downloading Wazuh agent
+      ansible.builtin.get_url:
+        url: "{{ ludus_wazuh_agent_install_package }}"
+        dest: "{{ ludus_install_directory }}/resources/windows/wazuh-agent-4.7.3-1.msi"
+        mode: "660"
+      delegate_to: localhost
+      when: not wazuhagent_msi_check.stat.exists
+
+- name: Check if Wazuh agent exists on host
+  ansible.windows.win_stat:
+    path: "{{ ludus_install_directory }}/resources/windows/wazuh-agent-4.7.3-1.msi"
+  register: wazuhagent_host_check
+
+- name: Copy Wazuh agent to windows host
+  ansible.windows.win_copy:
+    src: "{{ ludus_install_directory }}/resources/windows/SSMS-Setup-ENU.exe"
+    dest: "{{ ludus_wazuh_install_directory }}\\SSMS-Setup-ENU.exe"
+  when: not wazuhagent_host_check.stat.exists

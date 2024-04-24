@@ -1,0 +1,18 @@
+- name: Extract values of wazuh siem server
+  ansible.builtin.set_fact:
+    ludus_wazuh_vm_vlan: "{{ vm_entry.vlan }}"
+    ludus_wazuh_vm_ip_last_octet: "{{ vm_entry.ip_last_octet }}"
+  loop: "{{ ludus }}"
+  loop_control:
+    loop_var: vm_entry
+  when: vm_entry.roles is defined and 'wazuh_server_install' in vm_entry.roles | join(' ')
+
+- name: Fail if no wazuh siem server VM found
+  ansible.builtin.fail:
+    msg: "Could not find any VM that has the *.wazuh_server_install role in your config"
+  when: ludus_wazuh_vm_vlan is undefined or ludus_wazuh_vm_ip_last_octet is undefined
+
+- name: Set the wazuh siem server ip
+  ansible.builtin.set_fact:
+    ludus_wazuh_siem_server:
+      "10.{{ range_second_octet }}.{{ ludus_wazuh_vm_vlan }}.{{ ludus_wazuh_vm_ip_last_octet }}"

@@ -1,0 +1,15 @@
+---
+- name: Alert is ludus_wazuh_siem_server is not set
+  ansible.builtin.debug:
+    msg: "ludus_wazuh_siem_server is not set. Attempting to set it automatically."
+  when: ludus_wazuh_siem_server == ""
+
+- name: Get an wazuh siem server details automatically
+  ansible.builtin.include_tasks:
+    file: get-wazuh-siem-server.yml
+  when: ludus_wazuh_siem_server == ""
+
+- name: Setup Wazuh agent on a Windows machine
+  ansible.builtin.include_tasks:
+    file: windows.yml
+  when: ansible_os_family == "Windows"

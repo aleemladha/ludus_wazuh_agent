@@ -1,0 +1,19 @@
+- name: Check if Wazuh Agent service is installed
+  win_service:
+    name: WazuhSvc
+  register: wazuh_agent_service
+
+- name: Download Wazuh agent
+  ansible.builtin.include_tasks:
+    file: download-wazuh-agent.yml  
+
+- name: Install Wazuh Agent
+  win_command: msiexec.exe /i "{{ludus_wazuh_install_directory}}\wazuh-agent" /q WAZUH_MANAGER={{ ludus_wazuh_siem_server }} WAZUH_REGISTRATION_SERVER={{ ludus_wazuh_siem_server }}
+  when: not wazuh_agent_service.exists
+
+- name: Start Wazuh Agent service
+  win_service:
+    name: WazuhSvc
+    state: started
+    start_mode: auto
+  when: not wazuh_agent_service.exists
