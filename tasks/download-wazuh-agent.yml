@@ -29,6 +29,6 @@
 
 - name: Copy Wazuh agent to windows host
   ansible.windows.win_copy:
-    src: "{{ ludus_install_directory }}/resources/windows/SSMS-Setup-ENU.exe"
-    dest: "{{ ludus_wazuh_install_directory }}\\SSMS-Setup-ENU.exe"
+    src: "{{ ludus_install_directory }}/resources/windows/wazuh-agent-4.7.3-1.msi"
+    dest: "{{ ludus_wazuh_install_directory }}\\wazuh-agent-4.7.3-1.msi"
   when: not wazuhagent_host_check.stat.exists
