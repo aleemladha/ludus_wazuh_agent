@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: ludus_elastic_agent
+  role_name: ludus_wazuh_agent
   author: Aleem Ladha
   description: Install WAZUH Agents in Ludus Ranges with enhanced SOC FORTRESS Rules
   license: Apache-2.0
