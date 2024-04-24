@@ -6,10 +6,10 @@
 - name: Download Wazuh agent
   ansible.builtin.include_tasks:
     file: download-wazuh-agent.yml
-  when: not wazuh_agent_service.exists  
+  when: not wazuh_agent_service.exists
 
 - name: Install Wazuh Agent
-  win_command: msiexec.exe /i "{{ludus_wazuh_install_directory}}\wazuh-agent" /q WAZUH_MANAGER={{ ludus_wazuh_siem_server }} WAZUH_REGISTRATION_SERVER={{ ludus_wazuh_siem_server }}
+  win_command: msiexec.exe /i "{{ludus_wazuh_install_directory}}\wazuh-agent-4.7.3-1.msi" /q WAZUH_MANAGER={{ ludus_wazuh_siem_server }} WAZUH_REGISTRATION_SERVER={{ ludus_wazuh_siem_server }}
   when: not wazuh_agent_service.exists
 
 - name: Start Wazuh Agent service
