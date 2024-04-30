@@ -6,7 +6,7 @@
 
 - name: Download the Windows Wazuh agent if it doesn't exist
   ansible.builtin.get_url:
-    url: "ludus_wazuh_agent_install_package"
+    url: "{{ ludus_wazuh_agent_install_package }}"
     dest: "{{ ludus_install_directory }}/resources/windows/wazuh-agent-4.7.3-1.msi"
     mode: "0644"
   delegate_to: localhost
