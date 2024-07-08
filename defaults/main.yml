@@ -1,6 +1,6 @@
 ---
 # Wazuh agent installation script URL
-ludus_wazuh_agent_install_package: "https://packages.wazuh.com/4.x/windows/wazuh-agent-4.7.3-1.msi"
+ludus_wazuh_agent_install_package: "https://packages.wazuh.com/4.x/windows/wazuh-agent-4.8.0-1.msi"
 ludus_wazuh_install_directory: "c:\\ludus"
 ludus_install_directory: /opt/ludus
 ludus_wazuh_siem_server: ""
